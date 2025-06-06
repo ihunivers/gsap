@@ -12,7 +12,7 @@
 
                 background: #222;
                 font-family: system-ui;
-                color: white;
+                
             }
 
             .box {
@@ -27,20 +27,14 @@
         </style>
     </head>
     <body>
-        <header>
-            <h1>Bienvenido a GSAP desde 0</h1>
-        </header>
-        <main>
-            <section>
-                <h4>GSAP: biblioteca de JavaScript para crear animaciones</h4>
-            </section>
+        
 
-
+            <button>inicia animacion</button>
             <div class="box"></div>
             <div class="box"></div>
             <div class="box"></div>
             <div class="box"></div>
-        </main>
+            <div class="box"></div>
         
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
         
@@ -69,20 +63,34 @@
             // );
             //puedes usar % o diferentes valores en x y
             // se anima el elemento con todo lo que contiene
-            //gsap actua como document.querySelectorAll evuelve un Array, que selecciona todos los elementos que cumblen en este caso con .box
-            gsap.to('.box:first-child', {
-                x: 100, // mueve el elemento 100 píxeles a la derecha
-                duration: 1, // duración de la animación en segundos
+            //gsap actua como document.querySelectorAll evuelve un Array, que selecciona todos los elementos que cumplen en este caso con .box
+            // gsap.to('.box:first-child', {
+            //     x: 100, // mueve el elemento 100 píxeles a la derecha
+            //     duration: 1, // duración de la animación en segundos
 
-            });
+            // });
 
-            gsap.to('.box:nth-child(2)', {
-                x: 200, // mueve el elemento 200 píxeles a la derecha
-                duration: 1, // duración de la animación en segundos
+            // gsap.to('.box:nth-child(2)', {
+            //     x: 200, // mueve el elemento 200 píxeles a la derecha
+            //     duration: 1, // duración de la animación en segundos
 
-            });
+            // });
         
+        const boxes = document.querySelectorAll('.box')
+        const button = document.querySelector('button')
+        button.addEventListener('click', () => {
+
+            boxes.forEach((box, i) => {
+                gsap.to(box, {
+                    x: 100, // mueve el elemento 100 píxeles a la derecha por cada iteración
+                    duration: 1, // duración de la animación en segundos
+                    delay: i * 0.5 // añade un retraso de 0.5 segundos por cada iteración
+                });
+            });//animacion de escalera de cada caja
+            
+        });
         
+
         </script>
 
     </body>
