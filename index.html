@@ -29,7 +29,7 @@
     <body>
         
 
-            <button>inicia animacion</button>
+            <!-- <button>inicia animacion</button> -->
             <div class="box"></div>
             <div class="box"></div>
             <div class="box"></div>
@@ -76,20 +76,61 @@
 
             // });
         
-        const boxes = document.querySelectorAll('.box')
-        const button = document.querySelector('button')
-        button.addEventListener('click', () => {
+        // const boxes = document.querySelectorAll('.box')
+        // const button = document.querySelector('button')
+        // button.addEventListener('click', () => {
 
-            boxes.forEach((box, i) => {
-                gsap.to(box, {
-                    x: 100, // mueve el elemento 100 píxeles a la derecha por cada iteración
-                    duration: 1, // duración de la animación en segundos
-                    delay: i * 0.5 // añade un retraso de 0.5 segundos por cada iteración
-                });
-            });//animacion de escalera de cada caja
+        //     boxes.forEach((box, i) => {
+        //         gsap.to(box, {
+        //             x: 100, // mueve el elemento 100 píxeles a la derecha por cada iteración
+        //             duration: 1, // duración de la animación en segundos
+        //             delay: i * 0.5 // añade un retraso de 0.5 segundos por cada iteración
+        //         });
+        //     });//animacion de escalera de cada caja
             
-        });
+        // });
         
+ 
+       // x: 100,  valores especiales, son pixeles.
+       // y: "+=200", son relativos, se suman a la posición actual, la posicion que tienes incrementa 200.
+       //x: "40vw", es relativo a la ventana del navegador, 40% del ancho de la ventana, viewport width.
+
+       //puedes pasar funciones
+         // gsap.to(".box", {
+         //     x: () => Math.random() * 100, // mueve el elemento a una posición aleatoria en el eje x
+         //     y: () => window.innerHeight / 2, // mueve el elemento a la mitad de la altura de la ventana
+         //     duration: 1, // duración de la animación en segundos
+         //     delay: () => Math.random() * 2 // añade un retraso aleatorio de hasta 2 segundos
+         // });
+
+        //recuerda qie el delay acfecta todos por igual, si quieres que cada uno tenga un delay diferente puedes usar un forEach
+
+         //stagger animation -> animaciones escalonadas
+        // stagger es cuanto debe pasar entre cada elemento, si no se especifica es 0.1 segundos.
+
+            // gsap.to('.box', {
+            // x: 200, 
+            // duration: 1, // duración de la animación en segundos
+            // stagger: 0.5, // añade un retraso de 0.5 segundos entre cada animación o elemento. tambien acepta un objeto.
+            // rotate: 360, // rota el elemento 360 grados
+            // scale: 0.5, // reduce el tamaño del elemento al 50%
+            // repeat: 3, // repite la animación 3 veces, si quieres que sea infinito escribes -1
+            // yoyo: true, // hace que la animación vuelva a su estado original después de completarse, es para toda la animacion.
+            // });
+
+        gsap.to('.box', {
+            x: 200, 
+            duration: 1,
+            rotate: 360, 
+            scale: 0.5, 
+            stagger: {
+                each: 0.2, // cada elemento se anima con un retraso de 0.2 segundos
+                repeat: -1,yoyo: true,
+            },
+        });
+                
+                
+
 
         </script>
 
