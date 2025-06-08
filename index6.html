@@ -1,0 +1,141 @@
+<html>
+<head>
+    <head>
+        <title>GSAP, parte 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="styles.css">
+
+        
+        <style>
+            body {
+                background: #222;
+                font-family: system-ui;                
+            }
+
+            .box {
+                width: 75px;
+                height: 75px;
+                border-radius: 12px;
+                background: #09f;
+                margin-bottom: 4px;   
+                
+                &.yellow {
+                    background: yellow;
+                }
+                &.red {
+                    background: red;
+                }
+                &.green {
+                    background: green;
+                }
+                &.blue {
+                    background: blue;
+                }
+
+                &.purple {
+                    background: purple;
+                }
+
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr); 
+
+                img {
+                    aspect-ratio: 1/1;  
+                    width: 100%;
+                    
+                    height: auto;
+                }
+
+            }
+
+            #log { color:white; 
+            }
+    
+        </style>
+
+    </head>
+<body>
+    <div class="box red"></div>
+    <div class="box blue"></div>
+    <div class="box green"></div>
+
+<footer>
+    <button id="play">play</button>
+    <button id="pause">pause</button>
+    <button id="reverse">reverse</button>
+    <button id="restart">restart</button>
+    <button id="repeat">repeat</button>
+    <button id="turbo">turbo</button>
+</footer>
+<small id="log"></small>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script>
+
+
+        const tl = gsap.timeline({
+            defaults: {
+                duration: 2
+            },
+            //cuando se complete la animacion hacer esto-->
+            onComplete: () => {
+                window.log.innerHTML +="[event] complete! <br>";
+            },
+            onStart: () => {
+                window.log.innerHTML +="[event] start! <br>";
+            },
+            
+            onRepeat: () => {
+                window.log.innerHTML +="[event] repeat! <br>";
+            },
+
+            onReverseComplete: () => {
+                window.log.innerHTML +="[event] reverse complete! <br>";
+            },       
+        
+        })
+
+        tl
+            .to('.box.red', {
+                x: 200,
+            })
+            .to('.box.blue', {
+                
+                y: -80,
+            }, 3) 
+            .to('.box.green', {
+                y: -158,
+                x: 100,
+            }, 2) 
+            
+
+//no hacerlo en codigo real, es solo para ver el efecto
+            window.play.onclick = () => {
+                tl.play()
+                window.log.innerHTML += 'play <br>'
+            }
+            window.pause.onclick = () => {
+                tl.pause()
+                window.log.innerHTML += 'pause <br>'
+            }
+            window.reverse.onclick = () => {
+                tl.reverse()
+                window.log.innerHTML += 'reverse <br>'
+            }
+            window.restart.onclick = () => {
+                tl.restart()
+                window.log.innerHTML += 'restart <br>'
+            }
+            window.turbo.onclick = () => {
+                tl.timeScale(2)// acelera la animación al doble de velocidad
+                window.log.innerHTML += 'turbo <br>'
+            }
+    </script>
+    </div>
+</body>
+</html>

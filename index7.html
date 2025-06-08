@@ -1,0 +1,113 @@
+<html>
+<head>
+    <head>
+        <title>GSAP, parte 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="styles.css">
+
+        
+        <style>
+            body {
+                background: #222;
+                font-family: system-ui;                
+            }
+
+            .box {
+                width: 75px;
+                height: 75px;
+                border-radius: 12px;
+                background: #09f;
+                margin-bottom: 4px;   
+                
+                &.yellow {
+                    background: yellow;
+                }
+                &.red {
+                    background: red;
+                }
+                &.green {
+                    background: green;
+                }
+                &.blue {
+                    background: blue;
+                }
+
+                &.purple {
+                    background: purple;
+                }
+
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr); 
+
+                img {
+                    aspect-ratio: 1/1;  
+                    width: 100%;
+                    
+                    height: auto;
+                }
+
+            }
+
+            #log { color:white; 
+            }
+
+            h1 {
+                color: white;
+                text-wrap: balance;
+                text-align: center;
+            }
+    
+        </style>
+
+    </head>
+    <body>
+        <h1 class="text">plugin splittext de GSAP - 
+            Siempre debes usar gsap.registerPlugin(SplitText) para que funcione el plugin splitext
+        </h1>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+        <!--usando plugin splitext-->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+        <script>
+            //gsap
+            gsap.registerPlugin(SplitText);
+
+            const splitText = new SplitText(".text", {
+                type: "words" // (lines, words, chars) normalmente se usa una palabras es mejor, es menos costoso
+                
+            })
+
+            gsap.from(splitText.words, {
+                duration: 1,
+                y: 10, //estado inicial de las palabras
+                stagger: 0.1, //entre cada palabra tarda 0.1 segundos
+                autoAlpha: 0, // hace que aparezca de forma gradual, opacidad 0 hasta que se vea texto
+                filter: "blur(10px)", // hace que aparezca con un desenfoque
+            });
+        </script>
+    
+    </body>
+</html>
+<!-- El blur(10px) es una función de filtro en CSS que aplica un desenfoque a un elemento. En este caso, se utiliza en la animación de GSAP para que las palabras aparezcan inicialmente desenfocadas y luego se vuelvan nítidas.
+
+¿Cómo funciona?
+blur: Es un filtro que desenfoca el contenido del elemento.
+10px: Define la intensidad del desenfoque. Cuanto mayor sea el valor, más desenfocado estará el elemento. 
+
+¿Qué hace autoAlpha?
+opacity: 0: Hace que el elemento sea completamente transparente.
+visibility: hidden: Oculta el elemento del flujo del documento, evitando que sea interactivo o afecte el diseño.
+Cuando el valor de autoAlpha cambia de 0 a 1:
+
+opacity aumenta gradualmente, haciendo que el elemento se vuelva visible.
+visibility cambia automáticamente a visible cuando opacity es mayor que 0.
+-->
