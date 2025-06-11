@@ -1,2 +1,0 @@
-animacion: airpodsPro, con GSAPS
-
