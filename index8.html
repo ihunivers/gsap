@@ -1,0 +1,187 @@
+<html>
+<head>
+    <head>
+        <title>GSAP, parte 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="styles.css">
+
+        
+        <style>
+            body {
+                background: #222;
+                font-family: system-ui;                
+            }
+
+            .box {
+                width: 75px;
+                height: 75px;
+                border-radius: 12px;
+                background: #09f;
+                margin-bottom: 4px;   
+                
+                &.yellow {
+                    background: yellow;
+                }
+                &.red {
+                    background: red;
+                }
+                &.green {
+                    background: green;
+                }
+                &.blue {
+                    background: blue;
+                }
+
+                &.purple {
+                    background: purple;
+                }
+
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr); 
+
+                img {
+                    aspect-ratio: 1/1;  
+                    width: 100%;
+                    
+                    height: auto;
+                }
+
+            }
+
+            #log { color:white; 
+            }
+
+            h1 {
+                color: white;
+                text-wrap: balance;
+                text-align: center;
+            }
+
+            body {
+                height: 2000px; /* para scroll */
+            }
+
+            h1 {
+                position: fixed;
+                left: 50%;
+                top: 40%;
+                transform: translate(-50%, -50%); 
+                font-size: 15vw; /* tamaño de fuente responsivo, vw significa viewport width */
+                width: 100%;
+            }
+
+            canvas {
+                position: fixed; 
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%); /* centra el canvas en la pantalla */
+                aspect-ratio: 1068 / 600; /* relacion de aspecto del canvas */
+                width: 100%;
+            }
+    
+        </style>
+
+    </head>
+    <body>
+    
+        <h1 class="title">airPods Pro</h1>
+        <canvas id="hero"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+        <!--usando plugin splitext-->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+        <!--usando plugin ScrollTrigger-->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+        <script>
+        
+            //splitText
+            gsap.registerPlugin(SplitText);
+            // ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.to(".title", {
+                scale: 1.5,
+                autoAlpha: 0,
+                scrollTrigger: {
+                    //markers: true, // muestra los marcadores de inicio y fin de la animacion no es para produccion
+
+                    start:"center center", // inicia la animacion al hacer scroll a 1500px o  "center center" para que inicie en el centro de la pantalla
+
+                    scrub: 0.5, // hace que la animacion se ejecute en 0.5 segundos al hacer scroll
+
+                },
+
+            });
+
+            const canvas = document.getElementById("hero");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = 1068;
+            canvas.height = 600;
+
+            const TOTAL_FRAMES = 65;
+
+            const createURL = (frame) =>  {
+                const id = frame.toString().padStart(4, "0")
+                return `https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/medium/${id}.png`
+            }
+
+            const images = Array.from({ length: TOTAL_FRAMES }, (_, i) => {
+                const img = new Image();
+                img.src = createURL(i);
+                return img;
+            })
+
+            const airpods = {
+                frame: 0,
+            }
+
+            gsap.to(airpods, {
+                frame: TOTAL_FRAMES - 1,
+                ease: "none", // no hay easing, la animacion es lineal
+                snap: "frame", // hace que el frame se ajuste al numero entero mas cercano
+                scrollTrigger: {
+                    scrub: 0.5 // hace que la animacion se ejecute en 0.5 segundos al hacer scroll
+                },
+                onUpdate: render, // se ejecuta cada vez que se actualiza el frame
+            })
+
+            images[0].onload = () => render()
+            
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(images[airpods.frame], 0, 0);
+                
+            }
+
+
+        </script>
+
+    </body>
+</html>
+
+<!-- scrub: true, vincula el progreso de la animacion en el scroll en true.
+scrub: tambien le puedes poner un valor numerico, por ejemplo scrub: 1, que significa que la animacion se ejecuta en 1 segundo ó 0.5 significa que la animacion se ejecuta en 0.5 segundos.
+autoAlpha: 0 hace que el texto desaparezca al hacer scroll.
+scale: 1.5 hace que el texto se agrande al hacer scroll.
+
+start:1500,  inicia la animacion al hacer scroll a 1500px o  "center center" para que inicie en el centro de la pantalla.
+end: 2500,  termina la animacion al hacer scroll a 2500px o "bottom top" para que termine al llegar al final de la pantalla.
+
+markers: true, muestra los marcadores de inicio y fin de la animacion no es para produccion.
+
+start:"center center",  inicia la animacion al hacer scroll a 1500px o  "center center" para que inicie en el centro de la pantalla
+
+
+scrub: 0.5, hace que la animacion se ejecute en 0.5 segundos al hacer scroll
+
+padStart(4, "0") rellena el numero con ceros a la izquierda hasta que tenga 4 digitos, por ejemplo si el numero es 1, se convierte en 0001, si el numero es 10, se convierte en 0010, si el numero es 100, se convierte en 0100, si el numero es 1000, se queda igual. -->
